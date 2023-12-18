@@ -1,18 +1,14 @@
 use std::fs;
 
 fn get_number(line: &str) -> i32 {
-    let mut numbers: Vec<i32> = vec![];
-    for c in line.split("") {
-        if let Ok(num) = c.parse() {
-            numbers.push(num);
-        }
-    }
-    if numbers.len() == 1 {
-        return format!("{}{}", numbers[0], numbers[0]).parse().unwrap();
-    } else {
-        return format!("{}{}", numbers[0], numbers[numbers.len() - 1])
-            .parse()
-            .unwrap();
+    let digits: Vec<i32> = line
+        .chars()
+        .filter(|c| c.is_digit(10))
+        .map(|c| c.to_digit(10).unwrap() as i32)
+        .collect();
+    match digits.len() {
+        1 => digits[0] * 11,
+        _ => digits[0] * 10 + digits.last().unwrap(),
     }
 }
 
